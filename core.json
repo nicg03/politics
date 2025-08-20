@@ -1,0 +1,51 @@
+{
+    "Homepage": [
+      "Titolo e missione del sito",
+      "Ultimi articoli in evidenza",
+      "Box 'Focus del mese' (tema geopolitico attuale)"
+    ],
+    "Sezioni principali": {
+      "Politica interna": [
+        "Partiti, istituzioni, riforme"
+      ],
+      "Relazioni internazionali": [
+        "Diplomazia, conflitti, cooperazione"
+      ],
+      "Economia globale": [
+        "UE, commercio, energia, finanza internazionale"
+      ],
+      "Società e cultura politica": [
+        "Opinione pubblica, media, diritti umani"
+      ],
+      "Storia e prospettive": [
+        "Analisi storiche e confronti internazionali"
+      ]
+    },
+    "Rubriche fisse": [
+      "L’analisi della settimana",
+      "La mappa del mese (geopolitica visuale)"
+    ],
+    "Approfondimenti": [
+      "Report e dossier tematici",
+      "Interviste a esperti/politici",
+      "Recensioni di libri/documentari"
+    ],
+    "Autori": [
+      "Pagina dedicata a ciascun autore",
+      "Foto + bio breve + elenco articoli"
+    ],
+    "Chi siamo": [
+      "Presentazione del progetto",
+      "Metodo di lavoro (indipendenza, fonti)"
+    ],
+    "Contatti": [
+      "Form contatto",
+      "Newsletter (settimanale o mensile)"
+    ],
+    "Stile generale": [
+      "Grafica sobria, leggibile",
+      "Struttura ordinata con sezioni ben definite",
+      "Citazione fonti sempre presente per credibilità"
+    ]
+  }
+  
