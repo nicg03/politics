@@ -51,6 +51,26 @@ async function copyImages() {
       await fs.copyFile(from, to);
     }
   }
+  
+  // Copia immagini nella root per GitHub Pages
+  const rootImages = path.join(ROOT_DIR, 'images');
+  await ensureDir(rootImages);
+  for (const entry of entries) {
+    const from = path.join(srcImages, entry.name);
+    const to = path.join(rootImages, entry.name);
+    if (entry.isDirectory()) {
+      await ensureDir(to);
+      const subEntries = await fs.readdir(from, { withFileTypes: true });
+      for (const sub of subEntries) {
+        const fromSub = path.join(from, sub.name);
+        const toSub = path.join(to, sub.name);
+        if (sub.isDirectory()) continue;
+        await fs.copyFile(fromSub, toSub);
+      }
+    } else {
+      await fs.copyFile(from, to);
+    }
+  }
 }
 
 function renderLayout({ title, contentHtml }) {
@@ -192,8 +212,8 @@ input,textarea{width:100%;padding:11px;border:1px solid var(--line);border-radiu
 button{padding:10px 14px;border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:10px;cursor:pointer}
 button:hover{opacity:.95}
 .image-card{padding:0;overflow:hidden}
-.image-card .card-media{aspect-ratio:16/9;background:#f1f5f9;border-bottom:1px solid var(--line)}
-.image-card img{width:100%;height:100%;object-fit:cover;display:block}
+.image-card .card-media{background:#f1f5f9;border-bottom:1px solid var(--line)}
+.image-card img{width:100%;height:auto;display:block}
 .image-card .card-body{padding:14px}
 .card-title{font-weight:600}
 .image-card .card-title{font-weight:500}
@@ -203,6 +223,9 @@ button:hover{opacity:.95}
 .section-title a{text-decoration:none;color:var(--accent-2)}`;
   }
   await writeFileSafe(dest, css);
+  
+  // Copia styles.css nella root per GitHub Pages
+  await writeFileSafe(path.join(ROOT_DIR, 'styles.css'), css);
 }
 
 async function build() {
@@ -257,6 +280,9 @@ async function build() {
   </section>`;
   const homeContent = `<section class="stack-lg">${hero}${focusCard}${featured}${sezioniPreview}</section>`;
   await writeFileSafe(path.join(DIST_DIR, 'index.html'), renderLayout({ title: 'Homepage', contentHtml: homeContent }));
+  
+  // Copia index.html nella root per GitHub Pages
+  await writeFileSafe(path.join(ROOT_DIR, 'index.html'), renderLayout({ title: 'Homepage', contentHtml: homeContent }));
 
   const sezioniGroups = sezioniList.map(({ nome, descrizioni }) => {
     const slug = slugify(nome);
