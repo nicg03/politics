@@ -2,7 +2,6 @@ import { promises as fs } from 'fs';
 import path from 'path';
 
 const ROOT_DIR = process.cwd();
-const DIST_DIR = path.join(ROOT_DIR, 'dist');
 const SRC_DIR = path.join(ROOT_DIR, 'src');
 const BUILD_VERSION = Date.now();
 
@@ -26,7 +25,7 @@ async function writeFileSafe(filePath, content) {
 
 async function copyImages() {
   const srcImages = path.join(SRC_DIR, 'images');
-  const destImages = path.join(DIST_DIR, 'images');
+  const destImages = path.join(ROOT_DIR, 'images');
   try {
     const stat = await fs.stat(srcImages);
     if (!stat.isDirectory()) return;
@@ -51,26 +50,6 @@ async function copyImages() {
       await fs.copyFile(from, to);
     }
   }
-  
-  // Copia immagini nella root per GitHub Pages
-  const rootImages = path.join(ROOT_DIR, 'images');
-  await ensureDir(rootImages);
-  for (const entry of entries) {
-    const from = path.join(srcImages, entry.name);
-    const to = path.join(rootImages, entry.name);
-    if (entry.isDirectory()) {
-      await ensureDir(to);
-      const subEntries = await fs.readdir(from, { withFileTypes: true });
-      for (const sub of subEntries) {
-        const fromSub = path.join(from, sub.name);
-        const toSub = path.join(to, sub.name);
-        if (sub.isDirectory()) continue;
-        await fs.copyFile(fromSub, toSub);
-      }
-    } else {
-      await fs.copyFile(from, to);
-    }
-  }
 }
 
 function renderLayout({ title, contentHtml }) {
@@ -80,20 +59,20 @@ function renderLayout({ title, contentHtml }) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>${title} · Politica & Geopolitica</title>
-    <link rel="stylesheet" href="/styles.css?v=${BUILD_VERSION}" />
+    <link rel="stylesheet" href="styles.css?v=${BUILD_VERSION}" />
   </head>
   <body>
     <header class="site-header">
       <div class="container header-inner">
-        <a class="brand" href="/index.html">Politica & Geopolitica</a>
+        <a class="brand" href="index.html">Politica & Geopolitica</a>
         <nav class="nav">
-          <a href="/index.html">Home</a>
-          <a href="/sezioni/index.html">Sezioni</a>
-          <a href="/rubriche/index.html">Rubriche</a>
-          <a href="/approfondimenti/index.html">Approfondimenti</a>
-          <a href="/autori/index.html">Autori</a>
-          <a href="/chi-siamo/index.html">Chi siamo</a>
-          <a href="/contatti/index.html">Contatti</a>
+          <a href="index.html">Home</a>
+          <a href="sezioni.html">Sezioni</a>
+          <a href="rubriche.html">Rubriche</a>
+          <a href="approfondimenti.html">Approfondimenti</a>
+          <a href="autori.html">Autori</a>
+          <a href="chi-siamo.html">Chi siamo</a>
+          <a href="contatti.html">Contatti</a>
         </nav>
       </div>
     </header>
@@ -122,27 +101,28 @@ function renderArticleCard(article) {
   return `<article class="card card-article">
     <div class="card-body">
       <div class="meta"><span class="pill">${section}</span><time>${new Date(date).toLocaleDateString('it-IT')}</time></div>
-      <h3 class="card-title"><a href="/articoli/${slug}/index.html">${title}</a></h3>
+      <h3 class="card-title"><a href="articoli/${slug}.html">${title}</a></h3>
       <p class="card-text">${excerpt}</p>
     </div>
-    <div class="card-actions"><a class="button" href="/articoli/${slug}/index.html">Leggi</a></div>
+    <div class="card-actions"><a class="button" href="articoli/${slug}.html">Leggi</a></div>
   </article>`;
 }
 
 function renderSectionCard(sectionName) {
   const slug = slugify(sectionName);
-  const imgSrc = `/images/sections/${slug}.jpg`;
-  return `<a class="card image-card" href="/sezioni/${slug}/index.html">
-    <div class="card-media"><img src="${imgSrc}" alt="${sectionName}" loading="lazy" onerror="this.onerror=null;this.src='/images/home_page.jpg'"/></div>
+  const imgSrc = `images/sections/${slug}.jpg`;
+  return `<a class="card image-card" href="sezioni/${slug}.html">
+    <div class="card-media"><img src="${imgSrc}" alt="${sectionName}" loading="lazy" onerror="this.onerror=null;this.src='images/home_page.jpg'"/></div>
     <div class="card-body"><h3 class="card-title">${sectionName}</h3><p class="card-text">Esplora</p></div>
   </a>`;
 }
 
 function renderMacroCard(sectionName, macro) {
   const sectionSlug = slugify(sectionName);
-  const imgSrc = `/images/sections/${sectionSlug}.jpg`;
-  return `<a class="card image-card" href="/sezioni/${sectionSlug}/${slugify(macro)}/index.html">
-    <div class="card-media"><img src="${imgSrc}" alt="${sectionName} · ${macro}" loading="lazy" onerror="this.onerror=null;this.src='/images/home_page.jpg'"/></div>
+  const macroSlug = slugify(macro);
+  const imgSrc = `images/sections/${sectionSlug}.jpg`;
+  return `<a class="card image-card" href="sezioni/${sectionSlug}-${macroSlug}.html">
+    <div class="card-media"><img src="${imgSrc}" alt="${sectionName} · ${macro}" loading="lazy" onerror="this.onerror=null;this.src='images/home_page.jpg'"/></div>
     <div class="card-body"><h3 class="card-title">${macro}</h3><p class="card-text">${sectionName}</p></div>
   </a>`;
 }
@@ -167,7 +147,7 @@ function renderBreadcrumb(crumbs) {
 
 async function copyStyles() {
   const src = path.join(SRC_DIR, 'styles.css');
-  const dest = path.join(DIST_DIR, 'styles.css');
+  const dest = path.join(ROOT_DIR, 'styles.css');
   let css = '';
   try {
     css = await fs.readFile(src, 'utf-8');
@@ -223,17 +203,12 @@ button:hover{opacity:.95}
 .section-title a{text-decoration:none;color:var(--accent-2)}`;
   }
   await writeFileSafe(dest, css);
-  
-  // Copia styles.css nella root per GitHub Pages
-  await writeFileSafe(path.join(ROOT_DIR, 'styles.css'), css);
 }
 
 async function build() {
   const raw = await fs.readFile(path.join(ROOT_DIR, 'core.json'), 'utf-8');
   const data = JSON.parse(raw);
 
-  await fs.rm(DIST_DIR, { recursive: true, force: true });
-  await ensureDir(DIST_DIR);
   await copyStyles();
   await copyImages();
 
@@ -253,7 +228,7 @@ async function build() {
   let heroMedia = '';
   try {
     await fs.access(path.join(SRC_DIR, 'images', 'home_page.jpg'));
-    heroMedia = `<figure class="hero-media"><img src="/images/home_page.jpg" alt="Immagine in evidenza homepage" loading="lazy" /></figure>`;
+    heroMedia = `<figure class="hero-media"><img src="images/home_page.jpg" alt="Immagine in evidenza homepage" loading="lazy" /></figure>`;
   } catch {}
   const hero = `<section class="hero stack-md">
     <span class="kicker">Politica · Geopolitica · Economia</span>
@@ -279,16 +254,13 @@ async function build() {
     <div class="grid cards">${articles.map(renderArticleCard).join('')}</div>
   </section>`;
   const homeContent = `<section class="stack-lg">${hero}${focusCard}${featured}${sezioniPreview}</section>`;
-  await writeFileSafe(path.join(DIST_DIR, 'index.html'), renderLayout({ title: 'Homepage', contentHtml: homeContent }));
-  
-  // Copia index.html nella root per GitHub Pages
   await writeFileSafe(path.join(ROOT_DIR, 'index.html'), renderLayout({ title: 'Homepage', contentHtml: homeContent }));
 
   const sezioniGroups = sezioniList.map(({ nome, descrizioni }) => {
     const slug = slugify(nome);
     const macroGrid = (descrizioni || []).map((m) => renderMacroCard(nome, m)).join('');
     return `<section class="stack-md">
-      <h2 class="section-title"><a href="/sezioni/${slug}/index.html">${nome}</a></h2>
+      <h2 class="section-title"><a href="sezioni/${slug}.html">${nome}</a></h2>
       <div class="grid cards">${macroGrid}</div>
     </section>`;
   }).join('');
@@ -297,13 +269,13 @@ async function build() {
     <p class="lead">Esplora i macrotemi per ogni area.</p>
     ${sezioniGroups}
   </section>`;
-  await writeFileSafe(path.join(DIST_DIR, 'sezioni/index.html'), renderLayout({ title: 'Sezioni', contentHtml: sezioniContent }));
+  await writeFileSafe(path.join(ROOT_DIR, 'sezioni.html'), renderLayout({ title: 'Sezioni', contentHtml: sezioniContent }));
 
   for (const { nome, descrizioni } of sezioniList) {
     const slug = slugify(nome);
     const crumbs = renderBreadcrumb([
-      { label: 'Home', href: '/index.html' },
-      { label: 'Sezioni', href: '/sezioni/index.html' },
+      { label: 'Home', href: 'index.html' },
+      { label: 'Sezioni', href: 'sezioni.html' },
       { label: nome }
     ]);
     const macroGrid = (descrizioni || []).map((m) => renderMacroCard(nome, m)).join('');
@@ -313,14 +285,15 @@ async function build() {
       <div class="grid cards">${macroGrid}</div>
       ${articlesGrid}
     </section>`;
-    await writeFileSafe(path.join(DIST_DIR, `sezioni/${slug}/index.html`), renderLayout({ title: nome, contentHtml: sectionPageContent }));
+    await writeFileSafe(path.join(ROOT_DIR, `sezioni/${slug}.html`), renderLayout({ title: nome, contentHtml: sectionPageContent }));
 
     for (const punto of (descrizioni || [])) {
       const puntoSlug = slugify(punto);
+      const combinedSlug = `${slug}-${puntoSlug}`;
       const crumbs2 = renderBreadcrumb([
-        { label: 'Home', href: '/index.html' },
-        { label: 'Sezioni', href: '/sezioni/index.html' },
-        { label: nome, href: `/sezioni/${slug}/index.html` },
+        { label: 'Home', href: 'index.html' },
+        { label: 'Sezioni', href: 'sezioni.html' },
+        { label: nome, href: `sezioni/${slug}.html` },
         { label: punto }
       ]);
       const puntoHtml = `${crumbs2}<section class="stack-lg">
@@ -330,25 +303,25 @@ async function build() {
         </div>
         ${renderSectionCardsGrid(nome, articles)}
       </section>`;
-      await writeFileSafe(path.join(DIST_DIR, `sezioni/${slug}/${puntoSlug}/index.html`), renderLayout({ title: `${nome} · ${punto}`, contentHtml: puntoHtml }));
+      await writeFileSafe(path.join(ROOT_DIR, `sezioni/${combinedSlug}.html`), renderLayout({ title: `${nome} · ${punto}`, contentHtml: puntoHtml }));
     }
   }
 
   const rubriche = Array.isArray(data['Rubriche fisse']) ? data['Rubriche fisse'] : [];
-  await writeFileSafe(path.join(DIST_DIR, 'rubriche/index.html'), renderLayout({ title: 'Rubriche', contentHtml: renderList('Rubriche fisse', rubriche) }));
+  await writeFileSafe(path.join(ROOT_DIR, 'rubriche.html'), renderLayout({ title: 'Rubriche', contentHtml: renderList('Rubriche fisse', rubriche) }));
 
   const approfondimenti = Array.isArray(data['Approfondimenti']) ? data['Approfondimenti'] : [];
-  await writeFileSafe(path.join(DIST_DIR, 'approfondimenti/index.html'), renderLayout({ title: 'Approfondimenti', contentHtml: renderList('Approfondimenti', approfondimenti) }));
+  await writeFileSafe(path.join(ROOT_DIR, 'approfondimenti.html'), renderLayout({ title: 'Approfondimenti', contentHtml: renderList('Approfondimenti', approfondimenti) }));
 
   const autori = Array.isArray(data['Autori']) ? data['Autori'] : [];
-  await writeFileSafe(path.join(DIST_DIR, 'autori/index.html'), renderLayout({ title: 'Autori', contentHtml: renderList('Autori', autori) }));
+  await writeFileSafe(path.join(ROOT_DIR, 'autori.html'), renderLayout({ title: 'Autori', contentHtml: renderList('Autori', autori) }));
 
   const chiSiamo = Array.isArray(data['Chi siamo']) ? data['Chi siamo'] : [];
-  await writeFileSafe(path.join(DIST_DIR, 'chi-siamo/index.html'), renderLayout({ title: 'Chi siamo', contentHtml: renderList('Chi siamo', chiSiamo) }));
+  await writeFileSafe(path.join(ROOT_DIR, 'chi-siamo.html'), renderLayout({ title: 'Chi siamo', contentHtml: renderList('Chi siamo', chiSiamo) }));
 
   const contatti = Array.isArray(data['Contatti']) ? data['Contatti'] : [];
   const contattiContent = `<section class="stack-lg">
-    ${renderBreadcrumb([{ label: 'Home', href: '/index.html' }, { label: 'Contatti' }])}
+    ${renderBreadcrumb([{ label: 'Home', href: 'index.html' }, { label: 'Contatti' }])}
     <div class="card">
       <h1>Contatti</h1>
       <p class="lead">Scrivici per proposte editoriali, segnalazioni o collaborazioni.</p>
@@ -415,13 +388,16 @@ async function build() {
       });
     })();</script>
   </section>`;
-  await writeFileSafe(path.join(DIST_DIR, 'contatti/index.html'), renderLayout({ title: 'Contatti', contentHtml: contattiContent }));
+  await writeFileSafe(path.join(ROOT_DIR, 'contatti.html'), renderLayout({ title: 'Contatti', contentHtml: contattiContent }));
+
+  // Crea directory articoli se non esiste
+  await ensureDir(path.join(ROOT_DIR, 'articoli'));
 
   for (const article of articles) {
     const articleHtml = `${renderBreadcrumb([
-      { label: 'Home', href: '/index.html' },
-      { label: 'Sezioni', href: '/sezioni/index.html' },
-      { label: article.section, href: `/sezioni/${slugify(article.section)}/index.html` },
+      { label: 'Home', href: '../index.html' },
+      { label: 'Sezioni', href: '../sezioni.html' },
+      { label: article.section, href: `../sezioni/${slugify(article.section)}.html` },
       { label: article.title }
     ])}
     <article class="stack-lg">
@@ -433,10 +409,10 @@ async function build() {
         <p>Autore: ${article.author}</p>
       </div>
     </article>`;
-    await writeFileSafe(path.join(DIST_DIR, `articoli/${article.slug}/index.html`), renderLayout({ title: article.title, contentHtml: articleHtml }));
+    await writeFileSafe(path.join(ROOT_DIR, `articoli/${article.slug}.html`), renderLayout({ title: article.title, contentHtml: articleHtml }));
   }
 
-  console.log('Build completata. Apri dist/index.html o esegui: npm run preview');
+  console.log('Build completata. Tutte le pagine sono state generate nella directory principale per GitHub Pages.');
 }
 
 build().catch((err) => {
