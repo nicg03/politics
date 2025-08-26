@@ -68,8 +68,6 @@ function renderLayout({ title, contentHtml, isSubPage = false }) {
         <a class="brand" href="${basePath}index.html">Politica & Geopolitica</a>
         <nav class="nav">
           <a href="${basePath}index.html">Home</a>
-          <a href="${basePath}sezioni.html">Sezioni</a>
-          <a href="${basePath}rubriche.html">Rubriche</a>
           <a href="${basePath}approfondimenti.html">Approfondimenti</a>
           <a href="${basePath}autori.html">Autori</a>
           <a href="${basePath}chi-siamo.html">Chi siamo</a>
@@ -355,82 +353,330 @@ async function build() {
   await writeFileSafe(path.join(ROOT_DIR, 'rubriche.html'), renderLayout({ title: 'Rubriche', contentHtml: renderList('Rubriche fisse', rubriche) }));
 
   const approfondimenti = Array.isArray(data['Approfondimenti']) ? data['Approfondimenti'] : [];
-  await writeFileSafe(path.join(ROOT_DIR, 'approfondimenti.html'), renderLayout({ title: 'Approfondimenti', contentHtml: renderList('Approfondimenti', approfondimenti) }));
+  const approfondimentiContent = `<section class="stack-lg">
+    <h1>Approfondimenti</h1>
+    <p class="lead">Analisi dettagliate, report speciali e contenuti di approfondimento sui temi più rilevanti della politica e della geopolitica contemporanea.</p>
+    
+    <div class="grid cards">
+      <div class="card">
+        <h2>Report Speciali</h2>
+        <p>Indagini approfondite su temi di particolare rilevanza, con analisi dettagliate e dati esclusivi.</p>
+        <ul class="bullet">
+          <li>Le dinamiche del sistema partitico italiano</li>
+          <li>L'evoluzione delle relazioni UE-Italia</li>
+          <li>La crisi energetica in Europa</li>
+          <li>Il ruolo dei media nella politica contemporanea</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Analisi Tematiche</h2>
+        <p>Approfondimenti su specifici argomenti politici e geopolitici, con focus su cause, effetti e prospettive future.</p>
+        <ul class="bullet">
+          <li>Riforme istituzionali e processi democratici</li>
+          <li>Diplomazia e relazioni internazionali</li>
+          <li>Economia politica e globalizzazione</li>
+          <li>Società civile e partecipazione politica</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Dossier</h2>
+        <p>Raccolte tematiche di articoli e analisi su argomenti specifici, per una comprensione completa e articolata.</p>
+        <ul class="bullet">
+          <li>Elezioni e sistemi elettorali</li>
+          <li>Crisi geopolitiche e conflitti</li>
+          <li>Politiche pubbliche e welfare</li>
+          <li>Innovazione tecnologica e politica</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Interviste</h2>
+        <p>Conversazioni con esperti, politici e analisti per approfondire temi di attualità e ottenere prospettive diverse.</p>
+        <ul class="bullet">
+          <li>Dialoghi con esperti di politica</li>
+          <li>Interviste a rappresentanti istituzionali</li>
+          <li>Conversazioni con analisti internazionali</li>
+          <li>Testimonianze di protagonisti</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Metodologia</h2>
+      <p>I nostri approfondimenti seguono rigorosi standard editoriali:</p>
+      <ul class="bullet">
+        <li><strong>Fonti verificabili:</strong> Tutte le informazioni provengono da fonti ufficiali e verificabili</li>
+        <li><strong>Analisi oggettiva:</strong> Approccio imparziale basato su dati e fatti</li>
+        <li><strong>Esperti qualificati:</strong> Collaborazione con specialisti del settore</li>
+        <li><strong>Aggiornamenti continui:</strong> Contenuti sempre aggiornati e rilevanti</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Prossimi Approfondimenti</h2>
+      <p>Stiamo lavorando su nuovi contenuti di approfondimento. Iscriviti alla newsletter per essere informato sui prossimi report speciali.</p>
+      <div class="card-actions">
+        <a class="button" href="contatti.html#newsletter">Iscriviti alla newsletter</a>
+      </div>
+    </div>
+  </section>`;
+  await writeFileSafe(path.join(ROOT_DIR, 'approfondimenti.html'), renderLayout({ title: 'Approfondimenti', contentHtml: approfondimentiContent }));
 
   const autori = Array.isArray(data['Autori']) ? data['Autori'] : [];
-  await writeFileSafe(path.join(ROOT_DIR, 'autori.html'), renderLayout({ title: 'Autori', contentHtml: renderList('Autori', autori) }));
+  const autoriContent = `<section class="stack-lg">
+    <h1>Autori</h1>
+    <p class="lead">Conosci i nostri collaboratori e le loro aree di expertise.</p>
+    
+    <div class="grid cards">
+      <div class="card">
+        <div class="author-header">
+          <h2>Marco Rossi</h2>
+          <p class="author-title">Analista di Politica Interna</p>
+        </div>
+        <div class="author-bio">
+          <p>Marco Rossi è un analista politico con oltre 15 anni di esperienza nel settore. Specializzato in politica italiana e istituzioni europee, ha collaborato con diverse testate nazionali e think tank internazionali.</p>
+          <p>Laureato in Scienze Politiche all'Università di Roma La Sapienza, ha conseguito un Master in Relazioni Internazionali presso la London School of Economics. I suoi articoli si concentrano su riforme istituzionali, dinamiche partitiche e processi decisionali europei.</p>
+        </div>
+        <div class="author-meta">
+          <div class="meta-item">
+            <strong>Specializzazione:</strong> Politica interna, Istituzioni europee
+          </div>
+          <div class="meta-item">
+            <strong>Articoli pubblicati:</strong> 47
+          </div>
+          <div class="meta-item">
+            <strong>Ultimo articolo:</strong> "Analisi del sistema partitico italiano"
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="author-header">
+          <h2>Anna Bianchi</h2>
+          <p class="author-title">Esperta di Relazioni Internazionali</p>
+        </div>
+        <div class="author-bio">
+          <p>Anna Bianchi è una studiosa di relazioni internazionali con particolare focus su diplomazia, conflitti e cooperazione internazionale. Ha lavorato come consulente per organizzazioni internazionali e think tank specializzati in geopolitica.</p>
+          <p>Dottorato in Relazioni Internazionali all'Università di Bologna, ha trascorso periodi di ricerca a Washington DC e Bruxelles. La sua expertise include la politica estera italiana, le dinamiche UE e i rapporti transatlantici.</p>
+        </div>
+        <div class="author-meta">
+          <div class="meta-item">
+            <strong>Specializzazione:</strong> Relazioni internazionali, Geopolitica
+          </div>
+          <div class="meta-item">
+            <strong>Articoli pubblicati:</strong> 32
+          </div>
+          <div class="meta-item">
+            <strong>Ultimo articolo:</strong> "Le relazioni tra UE e Italia"
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Collabora con noi</h2>
+      <p>Sei un esperto di politica, geopolitica o economia? Stiamo sempre alla ricerca di nuovi collaboratori per arricchire la nostra redazione.</p>
+      <p>Invia il tuo curriculum e una proposta di articolo a: <strong>redazione@example.com</strong></p>
+      <div class="card-actions">
+        <a class="button" href="contatti.html">Contattaci</a>
+      </div>
+    </div>
+  </section>`;
+  await writeFileSafe(path.join(ROOT_DIR, 'autori.html'), renderLayout({ title: 'Autori', contentHtml: autoriContent }));
 
   const chiSiamo = Array.isArray(data['Chi siamo']) ? data['Chi siamo'] : [];
-  await writeFileSafe(path.join(ROOT_DIR, 'chi-siamo.html'), renderLayout({ title: 'Chi siamo', contentHtml: renderList('Chi siamo', chiSiamo) }));
-
-  const contatti = Array.isArray(data['Contatti']) ? data['Contatti'] : [];
-  const contattiContent = `<section class="stack-lg">
-    ${renderBreadcrumb([{ label: 'Home', href: './index.html' }, { label: 'Contatti' }])}
+  const chiSiamoContent = `<section class="stack-lg">
+    <h1>Chi siamo</h1>
+    <p class="lead">Politica & Geopolitica è un progetto editoriale indipendente dedicato all'analisi approfondita della politica italiana e delle relazioni internazionali.</p>
+    
     <div class="card">
-      <h1>Contatti</h1>
-      <p class="lead">Scrivici per proposte editoriali, segnalazioni o collaborazioni.</p>
-      <ul class="bullet">${contatti.map(c => `<li>${c}</li>`).join('')}</ul>
+      <h2>La nostra missione</h2>
+      <p>Crediamo che una democrazia funzioni meglio quando i cittadini hanno accesso a informazioni accurate, analisi approfondite e prospettive diverse sui temi politici e geopolitici. Il nostro obiettivo è fornire contenuti di qualità che aiutino a comprendere la complessità del mondo contemporaneo.</p>
     </div>
 
     <div class="grid cards">
-      <a class="card" href="mailto:redazione@example.com"><h3>Email redazione</h3><p class="card-text">redazione@example.com</p></a>
-      <a class="card" href="mailto:press@example.com"><h3>Ufficio stampa</h3><p class="card-text">press@example.com</p></a>
-      <div class="card"><h3>Social</h3><p class="card-text">Twitter · LinkedIn · Instagram</p></div>
+      <div class="card">
+        <h3>Indipendenza editoriale</h3>
+        <p>Non siamo legati a partiti politici, gruppi di interesse o ideologie specifiche. La nostra indipendenza ci permette di offrire analisi oggettive e imparziali.</p>
+      </div>
+
+      <div class="card">
+        <h3>Rigore metodologico</h3>
+        <p>Ogni articolo e analisi si basa su fonti verificabili, dati ufficiali e metodologie consolidate. La qualità delle informazioni è la nostra priorità.</p>
+      </div>
+
+      <div class="card">
+        <h3>Esperti qualificati</h3>
+        <p>Collaboriamo con analisti, ricercatori e esperti riconosciuti nel campo della politica, delle relazioni internazionali e dell'economia.</p>
+      </div>
+
+      <div class="card">
+        <h3>Accessibilità</h3>
+        <p>Rendiamo temi complessi comprensibili a tutti, mantenendo al contempo la profondità e la precisione dell'analisi specialistica.</p>
+      </div>
     </div>
 
-    <section class="card">
-      <h2>Scrivici</h2>
-      <p class="help">Compila il modulo: si aprirà il tuo client di posta con il messaggio precompilato.</p>
-      <form id="contactEmailForm">
-        <div class="row">
-          <input type="text" name="name" placeholder="Nome" required />
-          <input type="email" name="email" placeholder="Email" required />
+    <div class="card">
+      <h2>I nostri valori</h2>
+      <ul class="bullet">
+        <li><strong>Trasparenza:</strong> Rendiamo sempre pubbliche le nostre fonti e metodologie</li>
+        <li><strong>Accuratezza:</strong> Verifichiamo ogni informazione prima della pubblicazione</li>
+        <li><strong>Equilibrio:</strong> Presentiamo prospettive diverse sui temi controversi</li>
+        <li><strong>Responsabilità:</strong> Riconosciamo l'impatto delle nostre analisi sul dibattito pubblico</li>
+        <li><strong>Innovazione:</strong> Esploriamo nuovi approcci all'analisi politica</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>La nostra storia</h2>
+      <p>Nato nel 2025, Politica & Geopolitica è il risultato della collaborazione tra esperti di politica, giornalisti e ricercatori che hanno deciso di creare uno spazio per l'analisi politica di qualità. Il progetto è cresciuto rapidamente, attirando l'attenzione di lettori interessati a comprendere meglio i fenomeni politici e geopolitici.</p>
+      
+      <p>Oggi siamo una piattaforma riconosciuta per la qualità delle nostre analisi e per l'approccio rigoroso all'informazione politica.</p>
+    </div>
+
+    <div class="card">
+      <h2>Il nostro team</h2>
+      <p>Il nostro team è composto da professionisti con diverse competenze e background:</p>
+      <ul class="bullet">
+        <li><strong>Analisti politici:</strong> Specialisti in politica italiana e comparata</li>
+        <li><strong>Esperti di relazioni internazionali:</strong> Studiosi di geopolitica e diplomazia</li>
+        <li><strong>Giornalisti:</strong> Professionisti dell'informazione con esperienza pluriennale</li>
+        <li><strong>Ricercatori:</strong> Accademici e studiosi di scienze politiche</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Collaborazioni</h2>
+      <p>Collaboriamo con università, think tank, centri di ricerca e altre organizzazioni per arricchire le nostre analisi e ampliare la nostra rete di esperti.</p>
+      
+      <p>Se sei interessato a collaborare con noi, visita la pagina <a href="autori.html">Autori</a> o contattaci direttamente.</p>
+    </div>
+
+    <div class="card">
+      <h2>Contattaci</h2>
+      <p>Hai domande, suggerimenti o vuoi collaborare con noi? Non esitare a contattarci.</p>
+      <div class="card-actions">
+        <a class="button" href="contatti.html">Scrivici</a>
+        <a class="button" href="autori.html">Conosci i nostri autori</a>
+      </div>
+    </div>
+  </section>`;
+  await writeFileSafe(path.join(ROOT_DIR, 'chi-siamo.html'), renderLayout({ title: 'Chi siamo', contentHtml: chiSiamoContent }));
+
+  const contattiContent = `<section class="stack-lg">
+    <h1>Contatti</h1>
+    <p class="lead">Siamo qui per ascoltare le tue opinioni, rispondere alle tue domande e costruire insieme una comunità di lettori informati e appassionati di politica e geopolitica.</p>
+    
+    <div class="card">
+      <h2>📧 Contattaci</h2>
+      <p>Per qualsiasi richiesta, proposta di collaborazione o informazione:</p>
+      <p><strong>info@politicageopolitica.it</strong></p>
+      <p>Rispondiamo entro 24-48 ore nei giorni lavorativi.</p>
+    </div>
+
+    <div class="card">
+      <h2>📬 Newsletter</h2>
+      <p>Iscriviti alla nostra newsletter per ricevere aggiornamenti sui nuovi articoli, approfondimenti esclusivi e analisi in anteprima.</p>
+      
+      <div class="newsletter-form">
+        <form action="#" method="POST" class="stack-md">
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" required placeholder="La tua email">
+          </div>
+          <div class="form-group">
+            <label for="name">Nome (opzionale)</label>
+            <input type="text" id="name" name="name" placeholder="Il tuo nome">
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" name="privacy" required>
+              Accetto la <a href="#privacy">Privacy Policy</a> *
+            </label>
+          </div>
+          <button type="submit" class="button">Iscriviti alla newsletter</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🤝 Collaborazioni e Partnership</h2>
+      <p>Siamo sempre interessati a nuove collaborazioni con:</p>
+      <ul class="bullet">
+        <li><strong>Universitarie:</strong> Dipartimenti di scienze politiche, relazioni internazionali, economia</li>
+        <li><strong>Think tank:</strong> Centri di ricerca e analisi politica</li>
+        <li><strong>Media:</strong> Giornali, riviste e piattaforme digitali</li>
+        <li><strong>Istituzioni:</strong> Organizzazioni pubbliche e private</li>
+      </ul>
+      <p>Se rappresenti una di queste realtà, contattaci per discutere possibili partnership.</p>
+    </div>
+
+    <div class="card">
+      <h2>📋 Modulo di Contatto</h2>
+      <p>Compila il form qui sotto per inviarci un messaggio diretto:</p>
+      
+      <form action="#" method="POST" class="stack-md">
+        <div class="form-group">
+          <label for="contact-name">Nome e Cognome *</label>
+          <input type="text" id="contact-name" name="name" required placeholder="Il tuo nome completo">
         </div>
-        <div class="row">
-          <select name="topic" required>
-            <option value="Proposta editoriale">Proposta editoriale</option>
-            <option value="Segnalazione">Segnalazione</option>
-            <option value="Collaborazione">Collaborazione</option>
-            <option value="Altro">Altro</option>
+        
+        <div class="form-group">
+          <label for="contact-email">Email *</label>
+          <input type="email" id="contact-email" name="email" required placeholder="La tua email">
+        </div>
+        
+        <div class="form-group">
+          <label for="contact-subject">Oggetto *</label>
+          <select id="contact-subject" name="subject" required>
+            <option value="">Seleziona un argomento</option>
+            <option value="info">Informazioni generali</option>
+            <option value="collaboration">Proposta di collaborazione</option>
+            <option value="article">Proposta di articolo</option>
+            <option value="technical">Problema tecnico</option>
+            <option value="feedback">Feedback e suggerimenti</option>
+            <option value="other">Altro</option>
           </select>
         </div>
-        <textarea name="message" rows="6" placeholder="Messaggio" required></textarea>
-        <label><input type="checkbox" name="privacy" required /> Acconsento al trattamento dei dati per rispondere alla mia richiesta</label>
-        <div class="form-actions">
-          <button type="submit">Invia via email</button>
-          <a class="button" href="mailto:redazione@example.com" aria-label="Invia email">Email diretta</a>
+        
+        <div class="form-group">
+          <label for="contact-message">Messaggio *</label>
+          <textarea id="contact-message" name="message" rows="6" required placeholder="Scrivi il tuo messaggio..."></textarea>
         </div>
-      </form>
-    </section>
-
-    <section class="card" id="newsletter">
-      <h2>Newsletter</h2>
-      <p class="lead">Iscriviti per ricevere aggiornamenti.</p>
-      <form onsubmit="event.preventDefault(); alert('Iscrizione effettuata.');">
-        <div class="row">
-          <input type="email" name="newsletter" placeholder="La tua email" required />
-          <button type="submit">Iscriviti</button>
+        
+        <div class="form-group">
+          <label>
+            <input type="checkbox" name="privacy" required>
+            Accetto la <a href="#privacy">Privacy Policy</a> *
+          </label>
         </div>
+        
+        <button type="submit" class="button">Invia messaggio</button>
       </form>
-    </section>
+    </div>
 
-    <p class="help">Nota privacy: i dati inviati saranno usati solo per rispondere alla richiesta.</p>
+    <div class="card">
+      <h2>🔗 Social Media</h2>
+      <p>Seguici sui nostri canali social per aggiornamenti in tempo reale:</p>
+      <div class="social-links">
+        <a href="#" class="button">Twitter/X</a>
+        <a href="#" class="button">LinkedIn</a>
+        <a href="#" class="button">Telegram</a>
+      </div>
+    </div>
 
-    <script>(function(){
-      var form = document.getElementById('contactEmailForm');
-      if(!form) return;
-      form.addEventListener('submit', function(ev){
-        ev.preventDefault();
-        var name = form.elements['name'].value || '';
-        var email = form.elements['email'].value || '';
-        var topic = form.elements['topic'].value || 'Richiesta';
-        var message = form.elements['message'].value || '';
-        var subject = '[' + topic + '] Nuovo messaggio dal sito';
-        var body = message + '\n\n—\nNome: ' + name + '\nEmail: ' + email;
-        var url = 'mailto:redazione@example.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-        window.location.href = url;
-      });
-    })();</script>
+    <div class="card">
+      <h2>📄 Privacy e Trasparenza</h2>
+      <p>Rispettiamo la tua privacy. I dati che ci fornisci vengono utilizzati esclusivamente per:</p>
+      <ul class="bullet">
+        <li>Rispondere alle tue richieste</li>
+        <li>Inviarti la newsletter (solo se richiesta)</li>
+        <li>Migliorare i nostri servizi</li>
+      </ul>
+      <p>Non vendiamo, condividiamo o utilizziamo i tuoi dati per altri scopi. Per maggiori informazioni, consulta la nostra <a href="#privacy">Privacy Policy</a>.</p>
+    </div>
   </section>`;
   await writeFileSafe(path.join(ROOT_DIR, 'contatti.html'), renderLayout({ title: 'Contatti', contentHtml: contattiContent }));
 
@@ -440,7 +686,6 @@ async function build() {
   for (const article of articles) {
     const articleHtml = `${renderBreadcrumb([
       { label: 'Home', href: '../index.html' },
-      { label: 'Sezioni', href: '../sezioni.html' },
       { label: article.section, href: `../sezioni/${slugify(article.section)}.html` },
       { label: article.title }
     ])}
@@ -448,9 +693,52 @@ async function build() {
       <div class="meta"><span class="pill">${article.section}</span><time>${new Date(article.date).toLocaleDateString('it-IT')}</time></div>
       <h1>${article.title}</h1>
       <p class="lead">${article.excerpt}</p>
+      
       <div class="card">
+        <p><strong>Autore:</strong> ${article.author}</p>
+        <p><strong>Tempo di lettura:</strong> 8-10 minuti</p>
+      </div>
+
+      <div class="card">
+        <h2>Introduzione</h2>
+        <p>Questo articolo rappresenta un esempio di contenuto esteso per testare il layout e la leggibilità del sito. I contenuti reali verranno sostituiti successivamente con analisi approfondite e articoli originali.</p>
+        
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      </div>
+
+      <div class="card">
+        <h2>Analisi del contesto</h2>
+        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        
+        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+        
+        <h3>Sottosezione importante</h3>
+        <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</p>
+      </div>
+
+      <div class="card">
+        <h2>Implicazioni e prospettive</h2>
+        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
+        
+        <p>Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.</p>
+        
+        <h3>Considerazioni finali</h3>
+        <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>
+      </div>
+
+      <div class="card">
+        <h2>Conclusioni</h2>
+        <p>Questo articolo di prova dimostra come il layout si comporta con contenuti più lunghi e strutturati. La tipografia, gli spazi e la gerarchia visiva sono stati ottimizzati per garantire una lettura confortevole su tutti i dispositivi.</p>
+        
+        <p>In futuro, questo spazio sarà occupato da analisi approfondite, dati, citazioni e contenuti originali che forniranno valore ai lettori interessati alla politica e alla geopolitica.</p>
+      </div>
+
+      <div class="card">
+        <h3>Note metodologiche</h3>
         <p>Questo è un articolo di prova generato automaticamente per verificare layout e navigazione. Sostituiscilo con contenuti reali in seguito.</p>
-        <p>Autore: ${article.author}</p>
+        <p><strong>Autore:</strong> ${article.author}</p>
+        <p><strong>Data pubblicazione:</strong> ${new Date(article.date).toLocaleDateString('it-IT')}</p>
+        <p><strong>Sezione:</strong> ${article.section}</p>
       </div>
     </article>`;
     await writeFileSafe(path.join(ROOT_DIR, `articoli/${article.slug}.html`), renderLayout({ title: article.title, contentHtml: articleHtml, isSubPage: true }));

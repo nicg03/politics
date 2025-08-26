@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Contatti · Politica & Geopolitica</title>
-    <link rel="stylesheet" href="./styles.css?v=1756232895102" />
+    <link rel="stylesheet" href="./styles.css?v=1756234175812" />
   </head>
   <body>
     <header class="site-header">
@@ -12,8 +12,6 @@
         <a class="brand" href="./index.html">Politica & Geopolitica</a>
         <nav class="nav">
           <a href="./index.html">Home</a>
-          <a href="./sezioni.html">Sezioni</a>
-          <a href="./rubriche.html">Rubriche</a>
           <a href="./approfondimenti.html">Approfondimenti</a>
           <a href="./autori.html">Autori</a>
           <a href="./chi-siamo.html">Chi siamo</a>
@@ -23,76 +21,117 @@
     </header>
     <main class="container main-content">
       <section class="stack-lg">
-    <nav class="breadcrumbs" aria-label="breadcrumb"><ol><li><a href="./index.html">Home</a></li><li aria-current="page">Contatti</li></ol></nav>
+    <h1>Contatti</h1>
+    <p class="lead">Siamo qui per ascoltare le tue opinioni, rispondere alle tue domande e costruire insieme una comunità di lettori informati e appassionati di politica e geopolitica.</p>
+    
     <div class="card">
-      <h1>Contatti</h1>
-      <p class="lead">Scrivici per proposte editoriali, segnalazioni o collaborazioni.</p>
-      <ul class="bullet"><li>Form contatto</li><li>Newsletter (settimanale o mensile)</li></ul>
+      <h2>📧 Contattaci</h2>
+      <p>Per qualsiasi richiesta, proposta di collaborazione o informazione:</p>
+      <p><strong>info@politicageopolitica.it</strong></p>
+      <p>Rispondiamo entro 24-48 ore nei giorni lavorativi.</p>
     </div>
 
-    <div class="grid cards">
-      <a class="card" href="mailto:redazione@example.com"><h3>Email redazione</h3><p class="card-text">redazione@example.com</p></a>
-      <a class="card" href="mailto:press@example.com"><h3>Ufficio stampa</h3><p class="card-text">press@example.com</p></a>
-      <div class="card"><h3>Social</h3><p class="card-text">Twitter · LinkedIn · Instagram</p></div>
+    <div class="card">
+      <h2>📬 Newsletter</h2>
+      <p>Iscriviti alla nostra newsletter per ricevere aggiornamenti sui nuovi articoli, approfondimenti esclusivi e analisi in anteprima.</p>
+      
+      <div class="newsletter-form">
+        <form action="#" method="POST" class="stack-md">
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" required placeholder="La tua email">
+          </div>
+          <div class="form-group">
+            <label for="name">Nome (opzionale)</label>
+            <input type="text" id="name" name="name" placeholder="Il tuo nome">
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" name="privacy" required>
+              Accetto la <a href="#privacy">Privacy Policy</a> *
+            </label>
+          </div>
+          <button type="submit" class="button">Iscriviti alla newsletter</button>
+        </form>
+      </div>
     </div>
 
-    <section class="card">
-      <h2>Scrivici</h2>
-      <p class="help">Compila il modulo: si aprirà il tuo client di posta con il messaggio precompilato.</p>
-      <form id="contactEmailForm">
-        <div class="row">
-          <input type="text" name="name" placeholder="Nome" required />
-          <input type="email" name="email" placeholder="Email" required />
+    <div class="card">
+      <h2>🤝 Collaborazioni e Partnership</h2>
+      <p>Siamo sempre interessati a nuove collaborazioni con:</p>
+      <ul class="bullet">
+        <li><strong>Universitarie:</strong> Dipartimenti di scienze politiche, relazioni internazionali, economia</li>
+        <li><strong>Think tank:</strong> Centri di ricerca e analisi politica</li>
+        <li><strong>Media:</strong> Giornali, riviste e piattaforme digitali</li>
+        <li><strong>Istituzioni:</strong> Organizzazioni pubbliche e private</li>
+      </ul>
+      <p>Se rappresenti una di queste realtà, contattaci per discutere possibili partnership.</p>
+    </div>
+
+    <div class="card">
+      <h2>📋 Modulo di Contatto</h2>
+      <p>Compila il form qui sotto per inviarci un messaggio diretto:</p>
+      
+      <form action="#" method="POST" class="stack-md">
+        <div class="form-group">
+          <label for="contact-name">Nome e Cognome *</label>
+          <input type="text" id="contact-name" name="name" required placeholder="Il tuo nome completo">
         </div>
-        <div class="row">
-          <select name="topic" required>
-            <option value="Proposta editoriale">Proposta editoriale</option>
-            <option value="Segnalazione">Segnalazione</option>
-            <option value="Collaborazione">Collaborazione</option>
-            <option value="Altro">Altro</option>
+        
+        <div class="form-group">
+          <label for="contact-email">Email *</label>
+          <input type="email" id="contact-email" name="email" required placeholder="La tua email">
+        </div>
+        
+        <div class="form-group">
+          <label for="contact-subject">Oggetto *</label>
+          <select id="contact-subject" name="subject" required>
+            <option value="">Seleziona un argomento</option>
+            <option value="info">Informazioni generali</option>
+            <option value="collaboration">Proposta di collaborazione</option>
+            <option value="article">Proposta di articolo</option>
+            <option value="technical">Problema tecnico</option>
+            <option value="feedback">Feedback e suggerimenti</option>
+            <option value="other">Altro</option>
           </select>
         </div>
-        <textarea name="message" rows="6" placeholder="Messaggio" required></textarea>
-        <label><input type="checkbox" name="privacy" required /> Acconsento al trattamento dei dati per rispondere alla mia richiesta</label>
-        <div class="form-actions">
-          <button type="submit">Invia via email</button>
-          <a class="button" href="mailto:redazione@example.com" aria-label="Invia email">Email diretta</a>
+        
+        <div class="form-group">
+          <label for="contact-message">Messaggio *</label>
+          <textarea id="contact-message" name="message" rows="6" required placeholder="Scrivi il tuo messaggio..."></textarea>
         </div>
-      </form>
-    </section>
-
-    <section class="card" id="newsletter">
-      <h2>Newsletter</h2>
-      <p class="lead">Iscriviti per ricevere aggiornamenti.</p>
-      <form onsubmit="event.preventDefault(); alert('Iscrizione effettuata.');">
-        <div class="row">
-          <input type="email" name="newsletter" placeholder="La tua email" required />
-          <button type="submit">Iscriviti</button>
+        
+        <div class="form-group">
+          <label>
+            <input type="checkbox" name="privacy" required>
+            Accetto la <a href="#privacy">Privacy Policy</a> *
+          </label>
         </div>
+        
+        <button type="submit" class="button">Invia messaggio</button>
       </form>
-    </section>
+    </div>
 
-    <p class="help">Nota privacy: i dati inviati saranno usati solo per rispondere alla richiesta.</p>
+    <div class="card">
+      <h2>🔗 Social Media</h2>
+      <p>Seguici sui nostri canali social per aggiornamenti in tempo reale:</p>
+      <div class="social-links">
+        <a href="#" class="button">Twitter/X</a>
+        <a href="#" class="button">LinkedIn</a>
+        <a href="#" class="button">Telegram</a>
+      </div>
+    </div>
 
-    <script>(function(){
-      var form = document.getElementById('contactEmailForm');
-      if(!form) return;
-      form.addEventListener('submit', function(ev){
-        ev.preventDefault();
-        var name = form.elements['name'].value || '';
-        var email = form.elements['email'].value || '';
-        var topic = form.elements['topic'].value || 'Richiesta';
-        var message = form.elements['message'].value || '';
-        var subject = '[' + topic + '] Nuovo messaggio dal sito';
-        var body = message + '
-
-—
-Nome: ' + name + '
-Email: ' + email;
-        var url = 'mailto:redazione@example.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-        window.location.href = url;
-      });
-    })();</script>
+    <div class="card">
+      <h2>📄 Privacy e Trasparenza</h2>
+      <p>Rispettiamo la tua privacy. I dati che ci fornisci vengono utilizzati esclusivamente per:</p>
+      <ul class="bullet">
+        <li>Rispondere alle tue richieste</li>
+        <li>Inviarti la newsletter (solo se richiesta)</li>
+        <li>Migliorare i nostri servizi</li>
+      </ul>
+      <p>Non vendiamo, condividiamo o utilizziamo i tuoi dati per altri scopi. Per maggiori informazioni, consulta la nostra <a href="#privacy">Privacy Policy</a>.</p>
+    </div>
   </section>
     </main>
     <footer class="site-footer">
