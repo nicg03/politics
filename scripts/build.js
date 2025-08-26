@@ -437,29 +437,4 @@ async function build() {
   // Crea directory articoli se non esiste
   await ensureDir(path.join(ROOT_DIR, 'articoli'));
 
-  for (const article of articles) {
-    const articleHtml = `${renderBreadcrumb([
-      { label: 'Home', href: '../index.html' },
-      { label: 'Sezioni', href: '../sezioni.html' },
-      { label: article.section, href: `../sezioni/${slugify(article.section)}.html` },
-      { label: article.title }
-    ])}
-    <article class="stack-lg">
-      <div class="meta"><span class="pill">${article.section}</span><time>${new Date(article.date).toLocaleDateString('it-IT')}</time></div>
-      <h1>${article.title}</h1>
-      <p class="lead">${article.excerpt}</p>
-      <div class="card">
-        <p>Questo è un articolo di prova generato automaticamente per verificare layout e navigazione. Sostituiscilo con contenuti reali in seguito.</p>
-        <p>Autore: ${article.author}</p>
-      </div>
-    </article>`;
-    await writeFileSafe(path.join(ROOT_DIR, `articoli/${article.slug}.html`), renderLayout({ title: article.title, contentHtml: articleHtml, isSubPage: true }));
-  }
-
-  console.log('Build completata. Tutte le pagine sono state generate nella directory principale per GitHub Pages.');
-}
-
-build().catch((err) => {
-  console.error(err);
-  process.exit(1);
-}); 
+  for (const art
