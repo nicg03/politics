@@ -22,7 +22,16 @@ body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubu
 .meta{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px}
 .pill{display:inline-block;padding:4px 8px;border:1px solid var(--line);border-radius:999px;background:#f8fafc;color:#334155}
 .card-title{font-size:18px;margin:6px 0}
-.card-title a{text-decoration:none;color:var(--accent-2)}
+.card-title a{text-decoration:none !important;color:var(--accent-2) !important}
+.card-title a:hover{text-decoration:none !important}
+.card-title a:visited{text-decoration:none !important}
+.card-title a:active{text-decoration:none !important}
+.card-title a:focus{text-decoration:none !important}
+/* Regole specifiche per rimuovere sottolineatura */
+a{text-decoration:none}
+.card a{text-decoration:none !important}
+.card-article .card-title a{text-decoration:none !important}
+.grid.cards .card-title a{text-decoration:none !important}
 .card-text{color:#475569}
 .card-actions{margin-top:10px}
 .button{display:inline-block;padding:8px 12px;border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:10px;text-decoration:none;font-size:14px}
@@ -42,12 +51,12 @@ button:hover{opacity:.95}
 .hero-media img{width:100%;height:auto;border-radius:14px;border:1px solid var(--line);box-shadow:0 1px 2px rgba(0,0,0,.04)}
 @media (min-width: 1200px){.hero-media{max-width:800px}} 
 .image-card{padding:0;overflow:hidden}
-.image-card .card-media{background:#f1f5f9;border-bottom:1px solid var(--line)}
-.image-card img{width:100%;height:auto;display:block}
+.image-card .card-media{background:#f1f5f9;border-bottom:1px solid var(--line);height:160px;display:flex;align-items:center;justify-content:center}
+.image-card .card-media img{width:100%;height:100%;object-fit:cover;display:block}
 .image-card .card-body{padding:14px}
 .card-title{font-weight:600}
 .image-card .card-title{font-weight:500}
-.image-card .card-text{color:#64748b}
+.image-card .card-text{display:none}
 .grid.cards.image-grid{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px} 
 .section-title{font-weight:400}
 .section-title a{text-decoration:none;color:var(--accent-2)} 

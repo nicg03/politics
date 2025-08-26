@@ -115,8 +115,8 @@ function renderSectionCard(sectionName, isSubPage = false) {
   const basePath = isSubPage ? '../' : './';
   const imgSrc = `${basePath}images/sections/${slug}.jpg`;
   return `<a class="card image-card" href="${basePath}sezioni/${slug}.html">
-    <div class="card-media"><img src="${imgSrc}" alt="${sectionName}" loading="lazy" onerror="this.onerror=null;this.src='${basePath}images/home_page.jpg'"/></div>
-    <div class="card-body"><h3 class="card-title">${sectionName}</h3><p class="card-text">Esplora</p></div>
+    <div class="card-media"><img src="${imgSrc}" alt="${sectionName}" loading="lazy" /></div>
+    <div class="card-body"><h3 class="card-title">${sectionName}</h3></div>
   </a>`;
 }
 
@@ -126,7 +126,7 @@ function renderMacroCard(sectionName, macro, isSubPage = false) {
   const basePath = isSubPage ? '../' : './';
   const imgSrc = `${basePath}images/sections/${sectionSlug}.jpg`;
   return `<a class="card image-card" href="${basePath}sezioni/${sectionSlug}-${macroSlug}.html">
-    <div class="card-media"><img src="${imgSrc}" alt="${sectionName} · ${macro}" loading="lazy" onerror="this.onerror=null;this.src='${basePath}images/home_page.jpg'"/></div>
+    <div class="card-media"><img src="${imgSrc}" alt="${sectionName} · ${macro}" loading="lazy" /></div>
     <div class="card-body"><h3 class="card-title">${macro}</h3><p class="card-text">${sectionName}</p></div>
   </a>`;
 }
@@ -224,6 +224,46 @@ async function build() {
       date: new Date().toISOString().slice(0, 10),
       section: 'Politica interna',
       author: 'Redazione'
+    },
+    {
+      slug: 'analisi-sistema-partitico-italiano',
+      title: 'Analisi del sistema partitico italiano',
+      excerpt: 'Un approfondimento sui partiti politici italiani e le loro dinamiche interne.',
+      date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
+      section: 'Politica interna',
+      author: 'Marco Rossi'
+    },
+    {
+      slug: 'relazioni-ue-italia',
+      title: 'Le relazioni tra UE e Italia',
+      excerpt: 'Analisi delle dinamiche politiche ed economiche tra l\'Unione Europea e l\'Italia.',
+      date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
+      section: 'Relazioni internazionali',
+      author: 'Anna Bianchi'
+    },
+    {
+      slug: 'crisi-energetica-europa',
+      title: 'La crisi energetica in Europa',
+      excerpt: 'Impatto della crisi energetica sui paesi europei e strategie di risposta.',
+      date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
+      section: 'Economia globale',
+      author: 'Luca Verdi'
+    },
+    {
+      slug: 'media-informazione-politica',
+      title: 'Media e informazione politica',
+      excerpt: 'Il ruolo dei media nella formazione dell\'opinione pubblica e nella politica.',
+      date: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
+      section: 'Società e cultura politica',
+      author: 'Sofia Neri'
+    },
+    {
+      slug: 'storia-democrazia-italiana',
+      title: 'Storia della democrazia italiana',
+      excerpt: 'Un percorso attraverso la storia democratica dell\'Italia dal dopoguerra a oggi.',
+      date: new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
+      section: 'Storia e prospettive',
+      author: 'Giuseppe Bianchi'
     }
   ];
 
@@ -255,7 +295,7 @@ async function build() {
   </section>`;
   const featured = `<section class="stack-md">
     <h2>In evidenza</h2>
-    <div class="grid cards">${articles.map(article => renderArticleCard(article)).join('')}</div>
+    <div class="grid cards">${articles.slice(0, 3).map(article => renderArticleCard(article)).join('')}</div>
   </section>`;
   const homeContent = `<section class="stack-lg">${hero}${focusCard}${featured}${sezioniPreview}</section>`;
   await writeFileSafe(path.join(ROOT_DIR, 'index.html'), renderLayout({ title: 'Homepage', contentHtml: homeContent }));
