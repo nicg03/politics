@@ -52,27 +52,28 @@ async function copyImages() {
   }
 }
 
-function renderLayout({ title, contentHtml }) {
+function renderLayout({ title, contentHtml, isSubPage = false }) {
+  const basePath = isSubPage ? '../' : './';
   return `<!doctype html>
 <html lang="it">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>${title} · Politica & Geopolitica</title>
-    <link rel="stylesheet" href="styles.css?v=${BUILD_VERSION}" />
+    <link rel="stylesheet" href="${basePath}styles.css?v=${BUILD_VERSION}" />
   </head>
   <body>
     <header class="site-header">
       <div class="container header-inner">
-        <a class="brand" href="index.html">Politica & Geopolitica</a>
+        <a class="brand" href="${basePath}index.html">Politica & Geopolitica</a>
         <nav class="nav">
-          <a href="index.html">Home</a>
-          <a href="sezioni.html">Sezioni</a>
-          <a href="rubriche.html">Rubriche</a>
-          <a href="approfondimenti.html">Approfondimenti</a>
-          <a href="autori.html">Autori</a>
-          <a href="chi-siamo.html">Chi siamo</a>
-          <a href="contatti.html">Contatti</a>
+          <a href="${basePath}index.html">Home</a>
+          <a href="${basePath}sezioni.html">Sezioni</a>
+          <a href="${basePath}rubriche.html">Rubriche</a>
+          <a href="${basePath}approfondimenti.html">Approfondimenti</a>
+          <a href="${basePath}autori.html">Autori</a>
+          <a href="${basePath}chi-siamo.html">Chi siamo</a>
+          <a href="${basePath}contatti.html">Contatti</a>
         </nav>
       </div>
     </header>
@@ -96,43 +97,46 @@ function renderList(title, items) {
   </section>`;
 }
 
-function renderArticleCard(article) {
+function renderArticleCard(article, isSubPage = false) {
   const { title, excerpt, date, section, slug } = article;
+  const basePath = isSubPage ? '../' : './';
   return `<article class="card card-article">
     <div class="card-body">
       <div class="meta"><span class="pill">${section}</span><time>${new Date(date).toLocaleDateString('it-IT')}</time></div>
-      <h3 class="card-title"><a href="articoli/${slug}.html">${title}</a></h3>
+      <h3 class="card-title"><a href="${basePath}articoli/${slug}.html">${title}</a></h3>
       <p class="card-text">${excerpt}</p>
     </div>
-    <div class="card-actions"><a class="button" href="articoli/${slug}.html">Leggi</a></div>
+    <div class="card-actions"><a class="button" href="${basePath}articoli/${slug}.html">Leggi</a></div>
   </article>`;
 }
 
-function renderSectionCard(sectionName) {
+function renderSectionCard(sectionName, isSubPage = false) {
   const slug = slugify(sectionName);
-  const imgSrc = `images/sections/${slug}.jpg`;
-  return `<a class="card image-card" href="sezioni/${slug}.html">
-    <div class="card-media"><img src="${imgSrc}" alt="${sectionName}" loading="lazy" onerror="this.onerror=null;this.src='images/home_page.jpg'"/></div>
+  const basePath = isSubPage ? '../' : './';
+  const imgSrc = `${basePath}images/sections/${slug}.jpg`;
+  return `<a class="card image-card" href="${basePath}sezioni/${slug}.html">
+    <div class="card-media"><img src="${imgSrc}" alt="${sectionName}" loading="lazy" onerror="this.onerror=null;this.src='${basePath}images/home_page.jpg'"/></div>
     <div class="card-body"><h3 class="card-title">${sectionName}</h3><p class="card-text">Esplora</p></div>
   </a>`;
 }
 
-function renderMacroCard(sectionName, macro) {
+function renderMacroCard(sectionName, macro, isSubPage = false) {
   const sectionSlug = slugify(sectionName);
   const macroSlug = slugify(macro);
-  const imgSrc = `images/sections/${sectionSlug}.jpg`;
-  return `<a class="card image-card" href="sezioni/${sectionSlug}-${macroSlug}.html">
-    <div class="card-media"><img src="${imgSrc}" alt="${sectionName} · ${macro}" loading="lazy" onerror="this.onerror=null;this.src='images/home_page.jpg'"/></div>
+  const basePath = isSubPage ? '../' : './';
+  const imgSrc = `${basePath}images/sections/${sectionSlug}.jpg`;
+  return `<a class="card image-card" href="${basePath}sezioni/${sectionSlug}-${macroSlug}.html">
+    <div class="card-media"><img src="${imgSrc}" alt="${sectionName} · ${macro}" loading="lazy" onerror="this.onerror=null;this.src='${basePath}images/home_page.jpg'"/></div>
     <div class="card-body"><h3 class="card-title">${macro}</h3><p class="card-text">${sectionName}</p></div>
   </a>`;
 }
 
-function renderSectionCardsGrid(sectionName, articles) {
+function renderSectionCardsGrid(sectionName, articles, isSubPage = false) {
   const filtered = articles.filter(a => a.section === sectionName);
   if (!filtered.length) return '';
   return `<section class="stack-md">
     <h2>Articoli</h2>
-    <div class="grid cards">${filtered.map(renderArticleCard).join('')}</div>
+    <div class="grid cards">${filtered.map(article => renderArticleCard(article, isSubPage)).join('')}</div>
   </section>`;
 }
 
@@ -228,7 +232,7 @@ async function build() {
   let heroMedia = '';
   try {
     await fs.access(path.join(SRC_DIR, 'images', 'home_page.jpg'));
-    heroMedia = `<figure class="hero-media"><img src="images/home_page.jpg" alt="Immagine in evidenza homepage" loading="lazy" /></figure>`;
+    heroMedia = `<figure class="hero-media"><img src="./images/home_page.jpg" alt="Immagine in evidenza homepage" loading="lazy" /></figure>`;
   } catch {}
   const hero = `<section class="hero stack-md">
     <span class="kicker">Politica · Geopolitica · Economia</span>
@@ -251,7 +255,7 @@ async function build() {
   </section>`;
   const featured = `<section class="stack-md">
     <h2>In evidenza</h2>
-    <div class="grid cards">${articles.map(renderArticleCard).join('')}</div>
+    <div class="grid cards">${articles.map(article => renderArticleCard(article)).join('')}</div>
   </section>`;
   const homeContent = `<section class="stack-lg">${hero}${focusCard}${featured}${sezioniPreview}</section>`;
   await writeFileSafe(path.join(ROOT_DIR, 'index.html'), renderLayout({ title: 'Homepage', contentHtml: homeContent }));
@@ -260,7 +264,7 @@ async function build() {
     const slug = slugify(nome);
     const macroGrid = (descrizioni || []).map((m) => renderMacroCard(nome, m)).join('');
     return `<section class="stack-md">
-      <h2 class="section-title"><a href="sezioni/${slug}.html">${nome}</a></h2>
+      <h2 class="section-title"><a href="./sezioni/${slug}.html">${nome}</a></h2>
       <div class="grid cards">${macroGrid}</div>
     </section>`;
   }).join('');
@@ -274,26 +278,26 @@ async function build() {
   for (const { nome, descrizioni } of sezioniList) {
     const slug = slugify(nome);
     const crumbs = renderBreadcrumb([
-      { label: 'Home', href: 'index.html' },
-      { label: 'Sezioni', href: 'sezioni.html' },
+      { label: 'Home', href: '../index.html' },
+      { label: 'Sezioni', href: '../sezioni.html' },
       { label: nome }
     ]);
-    const macroGrid = (descrizioni || []).map((m) => renderMacroCard(nome, m)).join('');
-    const articlesGrid = renderSectionCardsGrid(nome, articles);
+    const macroGrid = (descrizioni || []).map((m) => renderMacroCard(nome, m, true)).join('');
+    const articlesGrid = renderSectionCardsGrid(nome, articles, true);
     const sectionPageContent = `${crumbs}<section class="stack-lg">
       <div class="card"><h1>${nome}</h1><p class="lead">Macrotemi principali e ultimi articoli.</p></div>
       <div class="grid cards">${macroGrid}</div>
       ${articlesGrid}
     </section>`;
-    await writeFileSafe(path.join(ROOT_DIR, `sezioni/${slug}.html`), renderLayout({ title: nome, contentHtml: sectionPageContent }));
+    await writeFileSafe(path.join(ROOT_DIR, `sezioni/${slug}.html`), renderLayout({ title: nome, contentHtml: sectionPageContent, isSubPage: true }));
 
     for (const punto of (descrizioni || [])) {
       const puntoSlug = slugify(punto);
       const combinedSlug = `${slug}-${puntoSlug}`;
       const crumbs2 = renderBreadcrumb([
-        { label: 'Home', href: 'index.html' },
-        { label: 'Sezioni', href: 'sezioni.html' },
-        { label: nome, href: `sezioni/${slug}.html` },
+        { label: 'Home', href: '../index.html' },
+        { label: 'Sezioni', href: '../sezioni.html' },
+        { label: nome, href: `../sezioni/${slug}.html` },
         { label: punto }
       ]);
       const puntoHtml = `${crumbs2}<section class="stack-lg">
@@ -301,9 +305,9 @@ async function build() {
           <h1>${punto}</h1>
           <p class="lead">Pagina correlata a "${nome}". Qui potrai inserire contenuti e link tematici.</p>
         </div>
-        ${renderSectionCardsGrid(nome, articles)}
+        ${renderSectionCardsGrid(nome, articles, true)}
       </section>`;
-      await writeFileSafe(path.join(ROOT_DIR, `sezioni/${combinedSlug}.html`), renderLayout({ title: `${nome} · ${punto}`, contentHtml: puntoHtml }));
+      await writeFileSafe(path.join(ROOT_DIR, `sezioni/${combinedSlug}.html`), renderLayout({ title: `${nome} · ${punto}`, contentHtml: puntoHtml, isSubPage: true }));
     }
   }
 
@@ -321,7 +325,7 @@ async function build() {
 
   const contatti = Array.isArray(data['Contatti']) ? data['Contatti'] : [];
   const contattiContent = `<section class="stack-lg">
-    ${renderBreadcrumb([{ label: 'Home', href: 'index.html' }, { label: 'Contatti' }])}
+    ${renderBreadcrumb([{ label: 'Home', href: './index.html' }, { label: 'Contatti' }])}
     <div class="card">
       <h1>Contatti</h1>
       <p class="lead">Scrivici per proposte editoriali, segnalazioni o collaborazioni.</p>
@@ -409,7 +413,7 @@ async function build() {
         <p>Autore: ${article.author}</p>
       </div>
     </article>`;
-    await writeFileSafe(path.join(ROOT_DIR, `articoli/${article.slug}.html`), renderLayout({ title: article.title, contentHtml: articleHtml }));
+    await writeFileSafe(path.join(ROOT_DIR, `articoli/${article.slug}.html`), renderLayout({ title: article.title, contentHtml: articleHtml, isSubPage: true }));
   }
 
   console.log('Build completata. Tutte le pagine sono state generate nella directory principale per GitHub Pages.');
