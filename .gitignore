@@ -1,0 +1,38 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Package locks (se usi un package manager specifico, rimuovi gli altri)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Ambiente
+.env
+.env.*
+!.env.example
+
+# Build / Output
+/dist/
+/build/
+/out/
+/.cache/
+/.parcel-cache/
+/coverage/
+
+# Editor/IDE
+.vscode/
+.idea/
+
+# Windows
+Thumbs.db 
